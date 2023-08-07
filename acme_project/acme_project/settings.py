@@ -4,8 +4,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-m&$lzdzkutvrbr5vt=jpm)7#g7cken_tk%($ty+w902n7wb#=e'
 
-DEBUG = True
+# DEBUG = False
+# ALLOWED_HOSTS = [
+#    'localhost',
+#    '127.0.0.1',
+#]
 
+CSRF_FAILURE_VIEW = 'core.views.csrf_faulure'
+
+DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
@@ -16,7 +23,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'birthday.apps.BirthdayConfig',
+    'core.apps.CoreConfig',
     'pages.apps.PagesConfig',
+    'django_bootstrap5',
+    'django_cleanup.apps.CleanupConfig',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -27,11 +38,26 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'acme_project.urls'
 
 TEMPLATES_DIR = BASE_DIR / 'templates'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
+
+LOGIN_REDIRECT_URL = 'pages:homepage'
+
+LOGIN_URL = 'login'
 
 TEMPLATES = [
     {
@@ -79,7 +105,7 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = True
 

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from django.urls import reverse_lazy
 
@@ -9,11 +9,22 @@ from .models import Birthday
 from .utils import calculate_birthday_countdown
 
 
-class BirthdayCreateView(CreateView):
+class BirthdayMixin:
     model = Birthday
+    success_url = reverse_lazy('birthday:list')
+
+
+class BirthdayFormMixin:
     form_class = BirthdayForm
     template_name = 'birthday/birthday.html'
-    success_url = reverse_lazy('birthday:list')
+
+
+class BirthdayCreateView(BirthdayMixin, BirthdayFormMixin, CreateView):
+    pass
+
+
+class BirthdayUpdateView(BirthdayMixin, BirthdayFormMixin, UpdateView):
+    pass
 
 
 # Реализация без CBV
@@ -42,17 +53,22 @@ class BirthdayCreateView(CreateView):
 #     return render(request, template_name, context)
 
 
-def delete_birthday(request, pk):
-    instance = get_object_or_404(Birthday, pk=pk)
-    form = BirthdayForm(instance=instance)
-    context = {
-        'form': form
-    }
-    if request.method == 'POST':
-        instance.delete()
-        return redirect('birthday:list')
-    template_name = 'birthday/birthday.html'
-    return render(request, template_name, context)
+# Реализация без CBV
+# def delete_birthday(request, pk):
+#     instance = get_object_or_404(Birthday, pk=pk)
+#     form = BirthdayForm(instance=instance)
+#     context = {
+#         'form': form
+#     }
+#     if request.method == 'POST':
+#         instance.delete()
+#         return redirect('birthday:list')
+#     template_name = 'birthday/birthday.html'
+#     return render(request, template_name, context)
+
+
+class BirthdayDeleteView(BirthdayMixin, DeleteView):
+    pass
 
 
 # Реализация без CBV

@@ -49,3 +49,17 @@ class Birthday(models.Model):
         return (self.first_name + ' '
                 + self.last_name + ' ('
                 + str(self.birthday) + ')')
+
+
+class Congratulation(models.Model):
+    text = models.TextField(verbose_name='Текст позравления')
+    birthday = models.ForeignKey(
+        Birthday,
+        on_delete=models.CASCADE,
+        related_name='congratulations'
+    )
+    created_at = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )

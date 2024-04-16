@@ -22,24 +22,25 @@
             </a>
           </li>
 
-          <!-- Это блок ссылок для авторизованного пользователя -->
+          <!-- Блок ссылок для авторизованного пользователя -->
           {% if user.is_authenticated %}
             <span class="navbar-text">Пользователь: <b>{{ user.username }}</b></span>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
             </li>
-          <!-- Конец блока ссылок для авторизованного пользователя -->
-
+          <!-- Конец блока для авторизованного пользователя -->
           {% else %}
-
-          <!-- А здесь блок ссылок для неавторизованного пользователя -->
+          <!-- Блок для неавторизованного пользователя -->
           <li class="nav-item">
             <a class="nav-link {% if view_name == 'login' %}active{% endif %}"
             href="{% url 'login' %}">Войти</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link {% if view_name == 'registration' %}active{% endif %}"
+            href="{% url 'registration' %}">Регистрация</a>
+          </li>
           {% endif %}
-          <!-- Конец блока ссылок для неавторизованного пользователя -->
-
+          <!-- Конец блока для неавторизованного пользователя -->
         </ul>
       {% endwith %}
     </div>
